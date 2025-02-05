@@ -434,12 +434,18 @@ if (!validateFechaNacimiento(newClient.fecha_nacimiento)) {
             </Button>
           </TableCell>
           <TableCell>
-            <Button variant="contained"
-          color="error"
-          style={{ marginLeft: '10px' }}
-          onClick={() => handleDelete(cliente.id_cliente)}>
-              Eliminar
-            </Button>
+          <Button
+  variant="contained"
+  color="error"
+  style={{ marginLeft: '10px' }}
+  onClick={() => {
+    if (window.confirm("¿Está seguro que desea eliminar el cliente?")) {
+      handleDelete(cliente.id_cliente);
+    }
+  }}
+>
+  Eliminar
+</Button>
           </TableCell>
         </TableRow>
       ))}

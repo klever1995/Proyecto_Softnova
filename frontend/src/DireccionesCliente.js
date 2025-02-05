@@ -597,12 +597,16 @@ const validateCodigoPostal = (codigoPostal) => {
                   <TableCell>{direccion.punto_referencia}</TableCell>
                   <TableCell>
                   <Button 
-                      variant="contained" 
-                      color="error" 
-                      style={{ marginLeft: '10px' }} 
-                      onClick={() => handleDelete(direccion.id_direccion)}
+                    variant="contained" 
+                    color="error" 
+                    style={{ marginLeft: '10px' }} 
+                    onClick={() => {
+                        if (window.confirm("¿Está seguro que desea eliminar la dirección?")) {
+                        handleDelete(direccion.id_direccion);
+                        }
+                    }}
                     >
-                      Eliminar
+                    Eliminar
                     </Button>
                   </TableCell>
                 </TableRow>
