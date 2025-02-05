@@ -295,11 +295,11 @@ const handleDelete = async (id_cliente) => {
   // Manejar el envío del formulario para crear un nuevo cliente
   const handleSubmit = async () => {
     if (!newClient.nombre.trim()) {
-      alert("El nombre no puede estar vacío.");
+      setNombreError("El nombre no puede estar vacío.");
       return;
     }
     if (!validateNombre(newClient.nombre)) {
-      alert("El nombre solo puede contener letras y espacios.");
+      setNombreError("El nombre solo puede contener letras y espacios.");
       return;
     }
     // Validar el apellido antes de enviar el formulario
