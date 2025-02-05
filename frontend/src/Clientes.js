@@ -165,7 +165,7 @@ const validateApellido = (apellido) => {
   return regex.test(apellido);
 };
 
-// Función de validación para la cédula
+//Funcion para validar la cedula
 const validateCedula = (cedula) => {
   // Verifica que la cédula tenga exactamente 10 dígitos
   if (cedula.length !== 10) return false;
@@ -176,6 +176,8 @@ const validateCedula = (cedula) => {
 
   // Validación del algoritmo de cédula (en Ecuador)
   const cedulaArray = cedula.split('').map((num) => parseInt(num, 10));
+  
+  // Los dos primeros dígitos forman el código de la provincia (01-24)
   const provinceCode = cedulaArray[0] * 10 + cedulaArray[1];
 
   // Reglas de validación del primer dígito
@@ -186,7 +188,13 @@ const validateCedula = (cedula) => {
   
   // Sumatoria de los primeros 9 dígitos de la cédula
   for (let i = 0; i < 9; i++) {
-    sum += cedulaArray[i] * multiplier[i];
+    let product = cedulaArray[i] * multiplier[i];
+    if (product >= 10) {
+      // Si el producto es mayor o igual a 10, se suman los dígitos del número resultante
+      sum += product - 9; // Equivalente a sumarle las unidades del número resultante
+    } else {
+      sum += product;
+    }
   }
 
   // Verifica si la cédula es válida usando el algoritmo
@@ -195,6 +203,7 @@ const validateCedula = (cedula) => {
 
   return true;
 };
+
 
 // Función de validación para el teléfono
 const validateTelefono = (telefono) => {
@@ -286,11 +295,11 @@ const handleDelete = async (id_cliente) => {
   // Manejar el envío del formulario para crear un nuevo cliente
   const handleSubmit = async () => {
     if (!newClient.nombre.trim()) {
-      alert("El nombre no puede estar vacío.");
+      setNombreError("El nombre no puede estar vacío.");
       return;
     }
     if (!validateNombre(newClient.nombre)) {
-      alert("El nombre solo puede contener letras y espacios.");
+      setNombreError("El nombre solo puede contener letras y espacios.");
       return;
     }
     // Validar el apellido antes de enviar el formulario
@@ -425,12 +434,18 @@ if (!validateFechaNacimiento(newClient.fecha_nacimiento)) {
             </Button>
           </TableCell>
           <TableCell>
-            <Button variant="contained"
-          color="error"
-          style={{ marginLeft: '10px' }}
-          onClick={() => handleDelete(cliente.id_cliente)}>
-              Eliminar
-            </Button>
+          <Button
+  variant="contained"
+  color="error"
+  style={{ marginLeft: '10px' }}
+  onClick={() => {
+    if (window.confirm("¿Está seguro que desea eliminar el cliente?")) {
+      handleDelete(cliente.id_cliente);
+    }
+  }}
+>
+  Eliminar
+</Button>
           </TableCell>
         </TableRow>
       ))}

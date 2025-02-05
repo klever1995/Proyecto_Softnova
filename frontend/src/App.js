@@ -8,7 +8,7 @@ function App() {
   return (
     <BrowserRouter> {/* Envolver la aplicación en BrowserRouter */}
       <div className="App">
-        <h1>Mi Aplicación de Clientes</h1>
+        <h1>Geoclientes</h1>
         {/* Define las rutas */}
         <Routes>
           <Route path="/" element={<Clientes />} /> {/* Página principal con Clientes */}
